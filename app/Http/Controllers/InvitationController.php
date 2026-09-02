@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TeacherInvitationMail;
 
 class InvitationController extends Controller
 {
@@ -20,13 +22,15 @@ class InvitationController extends Controller
 
         $token = \Illuminate\Support\Str::random(32);
 
-        \App\Models\Invitation::create([
+        $invitation = \App\Models\Invitation::create([
             'email' => $request->email,
             'token' => $token,
             'role' => 'teacher'
         ]);
 
-        return redirect()->back()->with('success', 'Invitation link generated successfully! Share the generated link with the teacher.');
+        Mail::to($invitation->email)->send(new TeacherInvitationMail($invitation));
+
+        return redirect()->back()->with('success', 'Invitation email sent to ' . $invitation->email . '.');
     }
 
     public function showRegistrationForm($token)
