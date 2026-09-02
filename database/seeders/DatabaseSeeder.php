@@ -23,11 +23,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'academic_master',
 
-            User::factory()->create([
-            'name' => 'Academic Master',
-            'email' => 'beast@shulereport.com',
-            'password' => bcrypt('password'),
-            'role' => 'academic_master',
         ]);
     }
 }
