@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <h2 class="mb-4">Enter Marks: {{ $assignment->subject->subject_name }}</h2>
-            <h5 class="text-muted">Class: {{ $assignment->schoolClass->class_name }} | Year: {{ $academicYear->year_name ?? 'N/A' }}</h5>
+            <h5 class="text-muted">Class: {{ $assignment->schoolClass->display_name }} | Year: {{ $academicYear->year_name ?? 'N/A' }}</h5>
 
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>

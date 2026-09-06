@@ -70,7 +70,7 @@
                                 <select class="form-control @error('school_class_id') is-invalid @enderror" id="school_class_id" name="school_class_id" required>
                                     <option value="">Select Class...</option>
                                     @foreach($classes as $c)
-                                        <option value="{{ $c->id }}" {{ old('school_class_id') == $c->id ? 'selected' : '' }}>{{ $c->class_name }}</option>
+                                        <option value="{{ $c->id }}" {{ old('school_class_id') == $c->id ? 'selected' : '' }}>{{ $c->display_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('school_class_id')

@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExportController extends Controller
 {
+    protected function fileNameSafe(string $name): string
+    {
+        $name = preg_replace('/[^A-Za-z0-9]+/', '_', strtoupper($name));
+        return trim($name, '_');
+    }
+
     /**
      * Export full class results for Academics.
      */
@@ -31,7 +37,7 @@ class ExportController extends Controller
             ->where('academic_year_id', '=', $yearId)
             ->get();
 
-        $filename = "Results_{$class->class_name}_Semester_{$semester}_{$year->year_name}.csv";
+        $filename = "Results_{$this->fileNameSafe($class->display_name)}_Semester_{$semester}_{$year->year_name}.csv";
 
         return new StreamedResponse(function () use ($students, $yearId, $semester) {
             $handle = fopen('php://output', 'w');
@@ -109,7 +115,7 @@ class ExportController extends Controller
             })
             ->get();
 
-        $filename = "Marks_{$subject->subject_name}_{$class->class_name}_S{$semester}.csv";
+        $filename = "Marks_{$subject->subject_name}_{$this->fileNameSafe($class->display_name)}_S{$semester}.csv";
 
         return new StreamedResponse(function () use ($marks) {
             $handle = fopen('php://output', 'w');

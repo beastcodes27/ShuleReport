@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <h2 class="mb-4">View Marks: {{ $assignment->subject->subject_name }}</h2>
-            <h5 class="text-muted">Class: {{ $assignment->schoolClass->class_name }}</h5>
+            <h5 class="text-muted">Class: {{ $assignment->schoolClass->display_name }}</h5>
 
             <div class="card mt-4">
                 <div class="card-body p-0">

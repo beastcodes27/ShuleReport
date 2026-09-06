@@ -40,7 +40,7 @@
                                         <select class="form-select @error('from_class_id') is-invalid @enderror" id="from_class_id" name="from_class_id" required>
                                             <option value="">Select current class...</option>
                                             @foreach($classes as $c)
-                                                <option value="{{ $c->id }}" {{ old('from_class_id') == $c->id ? 'selected' : '' }}>{{ $c->class_name }}</option>
+                                                <option value="{{ $c->id }}" {{ old('from_class_id') == $c->id ? 'selected' : '' }}>{{ $c->display_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -75,7 +75,7 @@
                                         <select class="form-select @error('to_class_id') is-invalid @enderror" id="to_class_id" name="to_class_id" required>
                                             <option value="">Select target class...</option>
                                             @foreach($classes as $c)
-                                                <option value="{{ $c->id }}" {{ old('to_class_id') == $c->id ? 'selected' : '' }}>{{ $c->class_name }}</option>
+                                                <option value="{{ $c->id }}" {{ old('to_class_id') == $c->id ? 'selected' : '' }}>{{ $c->display_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

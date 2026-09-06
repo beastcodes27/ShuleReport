@@ -43,7 +43,7 @@
         <div class="student-details">
             <div class="detail-line"><strong>Name:</strong> <span>{{ $student->name }}</span></div>
             <div class="detail-line"><strong>Reg No:</strong> <span>{{ $student->registration_number ?: 'N/A' }}</span></div>
-            <div class="detail-line"><strong>Class:</strong> <span>{{ $student->schoolClass->class_name ?? 'N/A' }}</span></div>
+            <div class="detail-line"><strong>Class:</strong> <span>{{ $student->schoolClass->display_name ?? 'N/A' }}</span></div>
             <div class="detail-line"><strong>Term:</strong> <span>Semester {{ $selectedSemester }} / {{ $academicYear->year_name ?? 'N/A' }}</span></div>
         </div>
 

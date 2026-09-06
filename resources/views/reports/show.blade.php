@@ -73,7 +73,7 @@
         </div>
         <div class="info-item">
             <label>Class</label>
-            <span>{{ $student->schoolClass->class_name ?? 'N/A' }}</span>
+            <span>{{ $student->schoolClass->display_name ?? 'N/A' }}</span>
         </div>
         <div class="info-item">
             <label>Year / Semester</label>

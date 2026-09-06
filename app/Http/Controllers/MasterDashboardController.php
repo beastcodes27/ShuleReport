@@ -43,7 +43,7 @@ class MasterDashboardController extends Controller
         $classLabels   = [];
         $classAverages = [];
         foreach ($classes as $cls) {
-            $classLabels[] = $cls->class_name;
+            $classLabels[] = $cls->display_name;
             $studentIds    = $cls->students->pluck('id');
             $classMarks    = Mark::whereIn('student_id', $studentIds)
                 ->when($activeYear, fn($q) => $q->where('academic_year_id', $activeYear->id))

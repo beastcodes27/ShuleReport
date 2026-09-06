@@ -37,7 +37,7 @@
                                     </td>
                                     <td>
                                         <span class="badge bg-outline-secondary" style="border: 1px solid currentColor; color: var(--secondary);">
-                                            {{ $mark->student->schoolClass->class_name ?? 'N/A' }}
+                                            {{ $mark->student->schoolClass->display_name ?? 'N/A' }}
                                         </span>
                                     </td>
                                     <td>{{ $mark->subject->subject_name ?? 'N/A' }}</td>

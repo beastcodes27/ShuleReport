@@ -16,7 +16,7 @@
                         <i class="bi bi-book fs-3"></i>
                     </div>
                     <span class="badge bg-secondary px-3 py-2 rounded-pill">
-                        {{ $assignment->schoolClass->class_name ?? 'N/A' }}
+                        {{ $assignment->schoolClass->display_name ?? 'N/A' }}
                     </span>
                 </div>
                 

@@ -14,7 +14,7 @@
                     <option value="">All Classes</option>
                     @foreach($classes as $class)
                         <option value="{{ $class->id }}" {{ ($selectedClass->id ?? '') == $class->id ? 'selected' : '' }}>
-                            {{ $class->class_name }}
+                            {{ $class->display_name }}
                         </option>
                     @endforeach
                 </select>
@@ -69,7 +69,7 @@
                             @endif
                             <td><strong>{{ $student->name }}</strong></td>
                             <td>{{ $student->gender }}</td>
-                            <td>{{ $student->schoolClass->class_name ?? 'N/A' }}</td>
+                            <td>{{ $student->schoolClass->display_name ?? 'N/A' }}</td>
                             <td class="text-end px-4">
                                 <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-outline-primary me-2">
                                     <i class="bi bi-pencil"></i> Edit

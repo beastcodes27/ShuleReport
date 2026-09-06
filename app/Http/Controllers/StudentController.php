@@ -66,7 +66,7 @@ class StudentController extends Controller
             return redirect()->back()
                 ->withInput()
                 ->with('move_warning', [
-                    'message' => "Student {$existing->name} (Adm: {$existing->admission_number}) is already registered in {$existing->schoolClass->class_name}. Do you want to move them to the new class?",
+                    'message' => "Student {$existing->name} (Adm: {$existing->admission_number}) is already registered in {$existing->schoolClass->display_name}. Do you want to move them to the new class?",
                     'admission_number' => $existing->admission_number
                 ]);
         }
@@ -119,7 +119,7 @@ class StudentController extends Controller
             $student->update(['registration_number' => $regNumber]);
         }
 
-        return redirect()->back()->with('success', "Succesfully generated NECTA registration numbers for {$students->count()} students in {$class->class_name}.");
+        return redirect()->back()->with('success', "Succesfully generated NECTA registration numbers for {$students->count()} students in {$class->display_name}.");
     }
 
     public function show(string $id)

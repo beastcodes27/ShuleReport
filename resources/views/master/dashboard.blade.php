@@ -182,7 +182,7 @@
                                                 @endif
                                             </td>
                                             <td><strong class="text-dark">{{ $student->name }}</strong></td>
-                                            <td>{{ $student->schoolClass->class_name ?? 'N/A' }}</td>
+                                            <td>{{ $student->schoolClass->display_name ?? 'N/A' }}</td>
                                             <td><code>{{ $student->registration_number }}</code></td>
                                             <td class="text-end pe-4">
                                                 <span class="fs-5 fw-bold {{ $student->average >= 80 ? 'text-success' : 'text-primary' }}">{{ number_format($student->average, 1) }}%</span>

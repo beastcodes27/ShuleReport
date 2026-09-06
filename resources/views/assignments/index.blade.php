@@ -28,7 +28,7 @@
                         <tr>
                             <td><strong>{{ $assignment->user->name ?? 'N/A' }}</strong></td>
                             <td>{{ $assignment->subject->subject_name ?? 'N/A' }}</td>
-                            <td>{{ $assignment->schoolClass->class_name ?? 'N/A' }}</td>
+                            <td>{{ $assignment->schoolClass->display_name ?? 'N/A' }}</td>
                             <td class="text-end">
                                 <form action="{{ route('assignments.destroy', $assignment->id) }}" method="POST" class="d-inline">
                                     @csrf

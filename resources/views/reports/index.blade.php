@@ -33,7 +33,7 @@
                                 <option value="">Select Class...</option>
                                 @foreach($classes as $c)
                                 <option value="{{ $c->id }}" {{ $selectedClass==$c->id ? 'selected' : '' }}>
-                                    {{ $c->class_name }}
+                                    {{ $c->display_name }}
                                 </option>
                                 @endforeach
                             </select>
