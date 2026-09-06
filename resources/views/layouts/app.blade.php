@@ -22,6 +22,7 @@
     <div id="app">
         <div id="wrapper">
             @auth
+                <div id="sidebar-backdrop"></div>
                 @include('layouts.partials.sidebar')
             @endauth
 
@@ -120,16 +121,53 @@
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('sidebar');
             const collapseBtn = document.getElementById('sidebarCollapse');
-            
-            if (collapseBtn && sidebar) {
+            const backdrop = document.getElementById('sidebar-backdrop');
+
+            if (!sidebar) return;
+
+            const isMobile = () => window.innerWidth <= 768;
+
+            function openSidebar() {
+                sidebar.classList.remove('collapsed');
+                if (isMobile()) {
+                    backdrop.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeSidebar() {
+                sidebar.classList.add('collapsed');
+                backdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+
+            if (collapseBtn) {
                 collapseBtn.addEventListener('click', function () {
-                    sidebar.classList.toggle('collapsed');
+                    if (sidebar.classList.contains('collapsed')) {
+                        openSidebar();
+                    } else {
+                        closeSidebar();
+                    }
                 });
             }
 
-            // For mobile responsiveness
-            if (window.innerWidth <= 768 && sidebar) {
-                sidebar.classList.add('collapsed');
+            if (backdrop) {
+                backdrop.addEventListener('click', closeSidebar);
+            }
+
+            if (sidebar) {
+                sidebar.querySelectorAll('a.nav-link').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        if (isMobile() && !sidebar.classList.contains('collapsed')) {
+                            closeSidebar();
+                        }
+                    });
+                });
+            }
+
+            // Start hidden on small screens
+            if (isMobile()) {
+                closeSidebar();
             }
         });
     </script>

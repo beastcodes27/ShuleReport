@@ -164,17 +164,39 @@ body {
     opacity: 0.5;
 }
 
+/* Sidebar Backdrop (mobile) */
+#sidebar-backdrop {
+    display: none;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     #sidebar {
         margin-left: -280px;
         position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 1045;
+        box-shadow: none;
     }
-    #sidebar.active {
+    #sidebar.collapsed {
+        margin-left: -280px;
+    }
+    #sidebar:not(.collapsed) {
         margin-left: 0;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
     }
-    #content.active {
-        margin-left: 280px;
+    #sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 20, 10, 0.55);
+        z-index: 1040;
+    }
+    #sidebar-backdrop.show {
+        display: block;
     }
 }
 
