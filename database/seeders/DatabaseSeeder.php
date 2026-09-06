@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,14 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Academic Master',
-            'email' => 'admin@shulereport.com',
-            'password' => bcrypt('password'),
-            'role' => 'academic_master',
-
-        ]);
+        // Demo data (accounts + sample school data) is only created when DEMO_MODE=true.
+        if (config('demo.enabled')) {
+            $this->call(DemoSeeder::class);
+        }
     }
 }

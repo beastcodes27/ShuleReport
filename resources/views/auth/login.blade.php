@@ -384,6 +384,77 @@
         }
         .register-row a:hover { color: #a57c0a; text-decoration: underline; }
 
+        /* ── Demo accounts ── */
+        .demo-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border);
+        }
+        .demo-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+            color: #8d6e63;
+            margin-bottom: 12px;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 8px;
+        }
+        .demo-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            text-align: left;
+            padding: 9px 12px;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color var(--transition), background var(--transition), transform var(--transition), box-shadow var(--transition);
+        }
+        .demo-chip:hover {
+            border-color: var(--secondary);
+            background: #fff;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        .demo-chip.filled { border-color: var(--secondary); background: #fff; }
+        .demo-chip-icon {
+            width: 30px; height: 30px;
+            border-radius: 8px;
+            background: rgba(184,141,11,.14);
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .demo-chip-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.25;
+        }
+        .demo-chip-email {
+            display: block;
+            font-size: 10.5px;
+            color: #8d6e63;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 150px;
+        }
+
         /* Responsive: stack on small screens */
         @media (max-width: 768px) {
             .panel-left { display: none; }
@@ -519,6 +590,25 @@
                     </button>
                 </form>
 
+                @if(config('demo.enabled'))
+                    <div class="demo-section">
+                        <div class="demo-title">
+                            <i class="bi bi-info-circle-fill"></i> Demo accounts &mdash; tap to autofill
+                        </div>
+                        <div class="demo-grid">
+                            @foreach(config('demo.accounts') as $demo)
+                                <button type="button" class="demo-chip" data-email="{{ $demo['email'] }}" data-password="{{ $demo['password'] }}">
+                                    <span class="demo-chip-icon"><i class="bi {{ $demo['icon'] }}"></i></span>
+                                    <span>
+                                        <span class="demo-chip-label">{{ $demo['name'] }}</span>
+                                        <span class="demo-chip-email">{{ $demo['email'] }}</span>
+                                    </span>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
                 @if (Route::has('register'))
                     <div class="register-row">
                         Don't have an account? <a href="{{ route('register') }}">Create one</a>
@@ -551,6 +641,21 @@
         const btn = document.getElementById('submitBtn');
         btn.classList.add('loading');
         btn.disabled = true;
+    });
+
+    // Demo account autofill
+    document.querySelectorAll('.demo-chip').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            email.value = chip.dataset.email;
+            password.value = chip.dataset.password;
+            email.classList.remove('is-invalid');
+            password.classList.remove('is-invalid');
+            document.querySelectorAll('.demo-chip').forEach(function (c) { c.classList.remove('filled'); });
+            chip.classList.add('filled');
+            email.focus();
+        });
     });
 </script>
 
