@@ -23,9 +23,9 @@ Route::middleware(['auth', 'role:academic_master'])->group(function () {
     Route::resource('academic-years', App\Http\Controllers\AcademicYearController::class);
     Route::resource('reports', App\Http\Controllers\ReportController::class);
     Route::resource('grade-settings', App\Http\Controllers\GradeSettingController::class);
+    Route::resource('teachers', App\Http\Controllers\TeacherController::class);
     Route::get('/settings', [App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
-    Route::post('/students/generate-necta', [App\Http\Controllers\StudentController::class, 'generateNectaNumbers'])->name('students.generate-necta');
     Route::resource('promotions', App\Http\Controllers\PromotionController::class);
     Route::post('/promotions', [App\Http\Controllers\PromotionController::class, 'promote'])->name('promotions.promote');
     Route::get('/invitations', [App\Http\Controllers\InvitationController::class, 'index'])->name('invitations.index');
@@ -38,13 +38,18 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/invite/{token}', [App\Http\Controllers\InvitationController::class, 'register'])->name('register.invite.store');
 });
 
+// Academic Master & Department shared management routes
+Route::middleware(['auth', 'role:academic_master,academic_department'])->group(function () {
+    Route::resource('students', App\Http\Controllers\StudentController::class);
+    Route::post('/students/generate-necta', [App\Http\Controllers\StudentController::class, 'generateNectaNumbers'])->name('students.generate-necta');
+    Route::resource('assignments', App\Http\Controllers\TeacherSubjectController::class);
+});
+
 // Academic Department Routes
 Route::middleware(['auth', 'role:academic_department'])->group(function () {
     Route::get('/department/dashboard', [App\Http\Controllers\DepartmentDashboardController::class, 'index'])->name('department.dashboard');
-    Route::resource('students', App\Http\Controllers\StudentController::class);
     Route::resource('classes', App\Http\Controllers\SchoolClassController::class);
     Route::resource('subjects', App\Http\Controllers\SubjectController::class);
-    Route::resource('assignments', App\Http\Controllers\TeacherSubjectController::class);
 });
 
 // Teacher Routes

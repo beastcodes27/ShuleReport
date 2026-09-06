@@ -18,19 +18,28 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $classId = $request->query('school_class_id');
+        $search = $request->query('q');
         $query = Student::with(['schoolClass', 'academicYear']);
         
         if ($classId) {
             $query->where('school_class_id', '=', $classId);
         }
 
-        $students = $query->get();
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('admission_number', 'like', "%{$search}%")
+                    ->orWhere('registration_number', 'like', "%{$search}%");
+            });
+        }
+
+        $students = $query->orderBy('name')->get();
         $classes = SchoolClass::all();
         
         $selectedClass = $classId ? SchoolClass::find($classId) : null;
         $isNecta = $selectedClass ? NectaGrading::isNectaClass($selectedClass->class_name) : false;
 
-        return view('students.index', compact('students', 'classes', 'selectedClass', 'isNecta'));
+        return view('students.index', compact('students', 'classes', 'selectedClass', 'isNecta', 'search'));
     }
 
     public function create()
@@ -120,12 +129,31 @@ class StudentController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $classes = SchoolClass::all();
+        $years = AcademicYear::all();
+
+        return view('students.edit', compact('student', 'classes', 'years'));
     }
 
     public function update(\Illuminate\Http\Request $request, string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+
+        $request->validate([
+            'admission_number' => 'required|string|max:255|unique:students,admission_number,' . $student->id,
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female',
+            'school_class_id' => 'required|exists:school_classes,id',
+            'academic_year_id' => 'required|exists:academic_years,id',
+            'registration_number' => 'nullable|string|max:255|unique:students,registration_number,' . $student->id,
+        ]);
+
+        $student->update($request->only([
+            'admission_number', 'registration_number', 'name', 'gender', 'school_class_id', 'academic_year_id'
+        ]));
+
+        return redirect()->route('students.index')->with('success', 'Student updated successfully!');
     }
 
     public function destroy(string $id)

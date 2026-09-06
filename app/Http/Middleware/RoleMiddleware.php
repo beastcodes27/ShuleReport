@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!auth()->check() || auth()->user()->role !== $role) {
+        if (!auth()->check() || !in_array(auth()->user()->role, $roles, true)) {
             abort(403, 'Unauthorized access to this section.');
         }
 

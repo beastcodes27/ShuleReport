@@ -36,6 +36,21 @@
                     </a>
                 </li>
                 <li class="nav-item mb-1">
+                    <a href="{{ route('students.index') }}" class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i> <span>Students</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a href="{{ route('teachers.index') }}" class="nav-link {{ request()->routeIs('teachers.*') ? 'active' : '' }}">
+                        <i class="bi bi-person-badge me-2"></i> <span>Teachers</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a href="{{ route('assignments.index') }}" class="nav-link {{ request()->routeIs('assignments.*') ? 'active' : '' }}">
+                        <i class="bi bi-journal-bookmark me-2"></i> <span>Teacher Assignments</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
                     <a href="{{ route('promotions.index') }}" class="nav-link {{ request()->routeIs('promotions.*') ? 'active' : '' }}">
                         <i class="bi bi-arrow-up-circle me-2"></i> <span>Promotions</span>
                     </a>

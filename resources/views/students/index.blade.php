@@ -8,9 +8,9 @@
     </div>
 
     <div class="row g-3 mb-4 align-items-end">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <form action="{{ route('students.index') }}" method="GET" class="d-flex gap-2">
-                <select name="school_class_id" class="form-select border-0 shadow-sm" onchange="this.form.submit()">
+                <select name="school_class_id" class="form-select border-0 shadow-sm" style="max-width: 220px;" onchange="this.form.submit()">
                     <option value="">All Classes</option>
                     @foreach($classes as $class)
                         <option value="{{ $class->id }}" {{ ($selectedClass->id ?? '') == $class->id ? 'selected' : '' }}>
@@ -18,10 +18,13 @@
                         </option>
                     @endforeach
                 </select>
+                <input type="text" name="q" value="{{ $search ?? '' }}" class="form-control border-0 shadow-sm"
+                       placeholder="Search by name or admission no...">
+                <button type="submit" class="btn btn-light shadow-sm"><i class="bi bi-search"></i></button>
                 <a href="{{ route('students.index') }}" class="btn btn-light shadow-sm"><i class="bi bi-x-circle"></i></a>
             </form>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-4 text-end">
             @if($isNecta && $selectedClass)
                 <form action="{{ route('students.generate-necta') }}" method="POST" class="d-inline">
                     @csrf
@@ -68,6 +71,9 @@
                             <td>{{ $student->gender }}</td>
                             <td>{{ $student->schoolClass->class_name ?? 'N/A' }}</td>
                             <td class="text-end px-4">
+                                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-outline-primary me-2">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
                                 <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
